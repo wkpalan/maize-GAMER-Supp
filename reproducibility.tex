@@ -30,7 +30,7 @@
 \lstset{basicstyle=\fontfamily{DejaVuSansMono-TLF}\footnotesize}
 
 \usepackage[style=chicago-authordate]{biblatex}
-\addbibresource{../references/maize-GO-manuscript.bib}
+\addbibresource{references/maize-GO-manuscript.bib}
 
 
 \title{maize-GAMER Reproducibility File}
@@ -58,7 +58,7 @@
     \begin{tabular}{|l|l|l|l|l|}
       \hline
       \textbf{Database} & \textbf{Type} & \textbf{Format} & \textbf{Version} & \textbf{Species}
-      \csvreader[head to column names]{datasets_used.csv}{}%
+      \csvreader[head to column names]{tables/datasets_used.csv}{}%
       {\\\hline \Database & \Type & \Format & \Version & \Species }%
       \\ \hline
     \end{tabular}
@@ -74,7 +74,7 @@
     \begin{tabular}{|l|l|l|l|}
       \hline
       \textbf{Software} & \textbf{Type} & \textbf{Version} & \textbf{Citation}
-      \csvreader[head to column names]{software_used.csv}{}%
+      \csvreader[head to column names]{tables/software_used.csv}{}%
       {\\\hline \Software & \Type & \Version & \Citation }%
       \\ \hline
     \end{tabular}
