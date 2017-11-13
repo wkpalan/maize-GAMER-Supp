@@ -1,0 +1,32 @@
+\begin{table}[h]
+  \small
+  \centering
+  \caption{Overall results from maize-GAMER and other existing maize datasets}
+  \label{tbl:exist-overall}
+  \footnotesize
+  \begin{tabularx}{0.8\textwidth}{|X|S|S|S|}
+    \hline
+    \multirow{2}{*}{Analysis Metric} &	\multicolumn{2}{c|}{Existing} &		{maize-GAMER} \\
+    \cline{2-4}
+ 	  & {Gramene} &	{Phytozome}	& {Aggregate} \\
+    \hline
+    Raw Annotations & 111203 &	66709 & \\
+    \hline
+    \hspace*{1cm}Duplication  &	0.00\% &	37.90\% & \\
+    \hline
+    \hspace*{1cm}Redundancy	& 23.25\% & 7.24\% & \\
+    \hline
+     \multicolumn{4}{|c|}{} \\
+    \hline
+    Clean Annotations &	81315 &	36987 & 515059 \\
+    \hline
+    \hspace*{1cm}Coverage &	55.55\% &	40.87\% &	100.00\% \\
+    \hline
+    \hspace*{1cm}Specificity &	10.90 & 10.41 & 9.56 \\
+    \hline
+  \end{tabularx}
+    \\
+  \bigskip
+  \raggedright
+The table shows the analysis metrics calculated for large-scale GO annotation sets available for maize. See \ref{tbl:metrics} for description of metrics.
+\end{table}

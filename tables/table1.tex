@@ -1,0 +1,17 @@
+\begin{table}[h]
+  \small
+  \centering
+  \caption{Evidence Codes used in Gene Ontology Annotations}
+  \label{tbl:ev_codes}
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Type} & \textbf{EvidenceCode} & \textbf{Description}
+    \csvreader[head to column names]{tables/ev_codes.csv}{}%
+    {\\\hline \Type & \EvidenceCode & \Description}%
+    \\ \hline
+  \end{tabular}
+  
+  \raggedright
+  \bigskip
+  The table lists the types of Evidence Codes, and description of all the evidence codes which are used in the gene ontology project. The evidence codes with an * next to them are the ones without either curation or biological data supporting them.
+\end{table}

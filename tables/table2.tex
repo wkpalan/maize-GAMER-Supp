@@ -1,0 +1,120 @@
+\begin{landscape}
+\begin{table}[h]
+  \centering
+  \small
+  \caption{Subset of metrics used to analyse and evaluate the annotation datasets}
+  \label{tbl:metrics}
+  \begin{tabularx}{\linewidth}{|cXc|}
+    \hline
+    \multicolumn{3}{|c|}{\textbf{\emph{Analysis Metrics}}} \\
+    \hline
+    \textbf{Metric} & \multicolumn{1}{c}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Formula}} \\
+    \hline
+    Duplication & Proportion of duplicate annotations in a dataset &
+    \begin{minipage}{4.2in}
+      \centering
+      \begin{equation*}
+        \frac{
+        \text{\# of total Annotations - \# of Unique Annotations}
+        }
+        {
+          \text{\# of total Annotations}
+        }
+      \end{equation*}
+    \end{minipage}
+    \\
+    \hline
+     Redundancy & Proportion of redundant terms in a dataset &
+    \begin{minipage}{4.2in}
+      \begin{equation*}
+        \frac{
+        \sum_{y=1}^{M}  \text{\# of Ancestral terms annotated to Gene}(y)
+        }
+        {
+          \text{\# of total Genes}
+        }
+      \end{equation*}
+    \end{minipage}
+    \\
+    \hline
+    Coverage & Proportion of Genes annotated in a dataset &
+    \begin{minipage}{4.2in}
+      \begin{equation*}
+        \frac{
+          \text{\# of Genes with} \geq \text{one GO annotation}
+        }
+        {
+          \text{\# of Genes}
+        }
+      \end{equation*}
+    \end{minipage}
+    \\
+    \hline
+    Specificity & Specificity of the Annotation for a given gene &
+    \begin{minipage}{4.2in}
+      \begin{equation*}
+        \frac{
+        \sum_{x=1}^{N}  \text{\# of Ancestral terms inferred for Annotation}(x)
+        }
+        {
+          \text{\# of total Annotations}
+        }
+      \end{equation*}
+    \end{minipage}
+    \\
+    \hline
+    \multicolumn{3}{|c|}{\emph{\textbf{Comparison Metrics}}} \\
+    \hline
+    \textbf{Metric} & \multicolumn{1}{c}{\textbf{Description}} & \multicolumn{1}{c|}{\textbf{Formula}} \\
+    \hline
+    $hPr$ & Hierarchical Precision calculated by evaluating against the gold standard &
+    \begin{minipage}[c]{4.2in}
+      \begin{equation*}
+        \frac{
+        \text{GO term predicted in DS} \cap \text{GO terms annotated in GS}
+        }
+        {
+          \text{GO term predicted in DS}
+        }
+      \end{equation*}
+    \end{minipage}
+    \\
+    \hline
+    $hRc$ & Hierarchical Recall calculated  by evaluating against the gold standard &
+    \begin{minipage}{4.2in}
+      \begin{equation*}
+        \frac{
+        \text{GO term Predicted in DS} \cap \text{GO terms annotated in GS}
+        }
+        {
+          \text{GO terms annotated in GS}
+        }
+      \end{equation*}
+    \end{minipage}
+
+    \\
+    \hline
+    $hF_1$ &
+    hierarchical $F_1$ score calculated using $hPr$ and $hRc$
+    &
+    \begin{minipage}{4.2in}
+    \begin{equation*}
+      2 \times \left (
+            \frac{
+            hPr \times hRc
+            }
+            {
+              hPr + hRc
+            }
+            \right )
+    \end{equation*}
+    \end{minipage}
+    \\
+    \hline
+  \end{tabularx}
+
+  \raggedright
+  \bigskip
+  The table describes the different types of metrics used to evaluate the GO annotation sets. All of the metrics used here have been described in detail in \cite{defoinplatel_2011-rs}. Notations: $N$: Total \# of Annotations, $M$: Total \# of Genes, $DS$: Dataset, $GS$: Gold Standard.
+\end{table}
+\end{landscape}

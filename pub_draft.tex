@@ -1,0 +1,108 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+%\usepackage[document]{ragged2e}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{subcaption}
+\usepackage{rotating}
+\usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue, bookmarksnumbered=true,pdfview=FitB}
+\usepackage{array}
+\usepackage{authblk}
+%\usepackage{mathptmx}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{multirow}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage[labelfont=bf]{caption}
+\usepackage{csvsimple}
+\usepackage[group-separator={,}]{siunitx}
+\usepackage{pdflscape}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\sisetup{
+    group-digits=true,
+    group-separator = {,},
+    group-digits = true,
+    group-four-digits = true
+}
+\usepackage{xcolor}
+
+
+\usepackage[backend=biber,style=chicago-authordate]{biblatex}
+\addbibresource{references/maize-GO-manuscript.bib}
+%\addbibresource{references/ref.bib}
+%\bibliography{research}
+
+%\renewcommand\thetable{\thesection.\arabic{table}}
+
+%Command to make the correct supplementary table number
+\newcommand{\beginsupplement}{%
+        \setcounter{table}{0}
+        \renewcommand{\thetable}{S\arabic{table}}%
+        \setcounter{figure}{0}
+        \renewcommand{\thefigure}{S\arabic{figure}}%
+     }
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+    #1\ignorespaces
+}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}[1]{>{\raggedright\arraybackslash}m{#1}}
+\newcolumntype{O}[1]{>{\raggedleft\arraybackslash}m{#1}}
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+\renewcommand{\abstractname}{Summary}
+
+
+\setcounter{secnumdepth}{4}
+
+\title{Maize GO Annotation - Methods, Evaluation, and Review (maize-GAMER)}
+\author[1,2]{Kokulapalan Wimalanathan}
+\author[1,3]{Iddo Friedberg}
+\author[4,5]{Carson M. Andorf}
+\author[1,2,6]{Carolyn J. Lawrence-Dill}
+\affil[1] {Bioinformatics and Computational Biology, Iowa State University, Ames, IA 50011, USA}
+\affil[2] {Department of Genetics Development and Cell Biology, Iowa State University, Ames, IA 50011, USA}
+\affil[3] {Department of Veterinary Microbiology and Preventive Medicine, Iowa State University, Ames, IA 50011, USA}
+\affil[4] {USDA-ARS Corn Insects and Crop Genetics Research Unit, Iowa State University, Ames, IA 50011, USA}
+\affil[5] {Department of Computer Science, Iowa State University, Ames, IA 50011, USA}
+\affil[6] {Department of Agronomy, Iowa State University, Ames, IA 50011, USA}
+
+\date{}
+
+\begin{document}
+\DeclareGraphicsExtensions{.jpg,.pdf,.mps,.png}
+
+\maketitle
+\sloppy
+\include{summary/summary}
+
+\include{introduction/introduction}
+
+\include{method/methods}
+
+\include{results/result}
+
+\include{discussion/discussion}
+
+\include{post.disc/coi}
+
+\include{post.disc/acknowledge}
+
+\include{post.disc/contributions}
+
+\include{references/ref}
+
+\include{figures/figures}
+
+\include{tables/tables}
+
+\beginsupplement
+
+\include{supp/sup_tables}
+
+\include{supp/sup_figs}
+
+\end{document}

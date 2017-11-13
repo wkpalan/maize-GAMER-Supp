@@ -1,0 +1,23 @@
+\section{Supplementary Tables}
+
+\begin{table}[h]
+  \small
+  \centering
+  \caption{Top 10 Plants by number of high-confidence GO annotations in UniProt-GOA}
+  \label{tbl:uniprot_plants}
+  \begin{tabular}{|c|l|*{2}{S[table-number-alignment=right,table-figures-decimal=0]|}}
+    \hline
+    \textbf{Rank} & \textbf{Species} & \textbf{Proteins} & \textbf{Annotations}
+    \csvreader[head to column names]{supp/uniprot_plants_annots.csv}{}%
+    {\\\hline \thecsvrow & \emph{\Species} & \Proteins & \Annotations}%
+    \\ \hline
+  \end{tabular}
+\\
+\bigskip
+\raggedright
+The table shows the number of protein sequences and the total number of GO annotations assigned to them in the UniProt database. The table is ranked by the number of annotations. 
+\end{table}
+
+\newpage
+
+\input{supp/pipe_score_th}

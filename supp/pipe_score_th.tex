@@ -1,0 +1,41 @@
+\begin{table}[h]
+  \small
+  \centering
+  \caption{ $hF_{max}$ and score thresholds for mixed-method pipelines by GO categories}
+  \label{tbl:pipe_score_filt}
+  \begin{tabularx}{0.5\textwidth}{XSS}
+    
+    \multicolumn{3}{c}{\centering Cellular Component} \\
+    \hline
+    {Pipeline}	 & {$hF_{max}$}	 & {Pipeline Threshold} \\	 
+    \hline
+	Argot2  & 0.572 & 0.05 \\	 
+	FANN-GO & {NA}	 & {NA}	 \\
+	PANNZER & 0.46	 & 0.2	 \\
+	\hline
+    \multicolumn{3}{c}{}	\\
+    
+    \multicolumn{3}{c}{ \centering Molecular Function} \\
+    \hline
+    {Pipeline}	 & {$hF_{max}$}	 & {Pipeline Threshold} \\	 
+    \hline
+    Argot2  & 0.584	 & 0.15	 \\
+    FANN-GO & 0.582	 & 0.65	\\
+    PANNZER & 0.607	 & 0.55	 \\
+    \hline
+    \multicolumn{3}{c}{} \\
+    
+    \multicolumn{3}{c}{\centering Biological Process} \\
+    \hline
+    {Pipeline}	 & {$hF_{max}$}	 & {Pipeline Threshold} \\	 
+    \hline
+    Argot2 &  0.3	 & 0.15 \\
+    FANN-GO & 0.272	 & 0.3 \\
+    PANNZER	& 0.241	 & 0.4 \\
+    \hline
+  \end{tabularx}
+    \\
+  \bigskip
+  \raggedright
+The table shows the mixed-method pipeline scores which results in the max $hF_1$ calculated for each pipeline for each GO category. Threshold value shown here was used to select high confidence GO annotations from each pipeline and only annotations with a score $\geq$ the threshold were selected. 
+\end{table}

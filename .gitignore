@@ -1,0 +1,12 @@
+*.aux
+*.log
+*.pdf
+*.gz
+*.sh
+*.out
+*.bbl
+*.bcf
+*.blg
+*.run
+*.xml
+*ini

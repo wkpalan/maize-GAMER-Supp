@@ -1,0 +1,9 @@
+Software,Type,Version,Citation
+NCBI-BLAST,Sequence similarity,2.6.0,(\cite{altschul_1990-O4})
+HMMER,HMM scanning,3.1b1,(\cite{finn_2011-7L})
+InterProScan,Go Annotation,5.16-55.0,(\cite{jones_2014-tn})
+PANNZER,GO Annotation,1.1,(\cite{koskinen_2015-sl})
+Argot2,GO Annotation,2.0 (Web Server),(\cite{falda_2012-VX})
+FANN-GO,GO Annotation,One version only,(\cite{clark_2011--Z})
+AIGO,GO Evaluations,0.1.0,(\cite{defoinplatel_2011-rs})
+FASTX-Toolkit,fasta manipulation,0.0.13,(\cite{gordon_2010-qA})
