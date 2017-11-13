@@ -1,0 +1,435 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[document]{ragged2e}
+ \usepackage[T1]{fontenc}
+ \usepackage[utf8]{inputenc}
+ \usepackage[pdftex]{graphicx}
+ \usepackage{subcaption}
+ \usepackage{rotating}
+ \usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
+ \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue, bookmarksnumbered=true,pdfview=FitB}
+\usepackage{array}
+\usepackage{authblk}
+\usepackage{mathptmx}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{multirow}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage[labelfont=bf]{caption}
+\usepackage{csvsimple}
+\usepackage[group-separator={,}]{siunitx}
+\usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{DejaVuSansMono}
+\usepackage{minted}
+\setminted[sh]{fontfamily=DejaVuSansMono-TLF,breaksymbolleft=,fontsize=\footnotesize}
+\setminted[matlab]{fontfamily=DejaVuSansMono-TLF,breaksymbolleft=,fontsize=\footnotesize}
+\lstset{basicstyle=\fontfamily{DejaVuSansMono-TLF}\footnotesize}
+
+\usepackage[style=chicago-authordate]{biblatex}
+\addbibresource{references/maize-GO-manuscript.bib}
+
+
+\title{maize-GAMER Reproducibility File}
+\author[12]{Kokulapalan Wimalanathan}
+\author[13]{Iddo Friedberg}
+\author[45]{Carson M. Andorf}
+\author[126]{Carolyn J. Lawrence-Dill}
+\affil[1] {Bioinformatics and Computational Biology, Iowa State University, Ames, IA 50011, USA}
+\affil[2] {Department of Genetics Development and Cell Biology, Iowa State University, Ames, IA 50011, USA}
+\affil[3] {Department of Veterinary Microbiology and Preventive Medicine, Iowa State University, Ames, IA 50011, USA}
+\affil[4] {USDA-ARS Corn Insects and Crop Genetics Research Unit, Iowa State University, Ames, IA 50011, USA}
+\affil[5] {Department of Computer Science, Iowa State University, Ames, IA 50011, USA}
+\affil[6] {Department of Agronomy, Iowa State University, Ames, IA 50011, USA}
+
+\begin{document}
+\DeclareGraphicsExtensions{.jpg,.pdf,.mps,.png}
+  \maketitle
+  \newpage
+%%%% Datasets %%%%%
+  \section{Datasets}
+  \begin{table}[H]
+    \centering
+    \caption{Public Datasets used in the project}
+    \label{tbl:software_used}
+    \begin{tabular}{|l|l|l|l|l|}
+      \hline
+      \textbf{Database} & \textbf{Type} & \textbf{Format} & \textbf{Version} & \textbf{Species}
+      \csvreader[head to column names]{tables/datasets_used.csv}{}%
+      {\\\hline \Database & \Type & \Format & \Version & \Species }%
+      \\ \hline
+    \end{tabular}
+  \end{table}
+\newpage
+
+%%%% Software %%%%%
+  \section{Software Tools and Versions}
+  \begin{table}[H]
+    \centering
+    \caption{Software Tools used in the project. Exact parameters used will be specified in section \ref{sec:steps}.}
+    \label{tbl:datasets_used}
+    \begin{tabular}{|l|l|l|l|}
+      \hline
+      \textbf{Software} & \textbf{Type} & \textbf{Version} & \textbf{Citation}
+      \csvreader[head to column names]{tables/software_used.csv}{}%
+      {\\\hline \Software & \Type & \Version & \Citation }%
+      \\ \hline
+    \end{tabular}
+  \end{table}
+\newpage
+
+%%%% Annotation of Maize Genes %%%%%
+  \section{Annotation of Maize Genes}
+  \label{sec:steps}
+  \subsection{Obtaining Input Datasets}
+  \begin{enumerate}
+    \item Query Sequencess
+    \begin{enumerate}
+      \item Downloaded maize RefGen\_v3 5b+ protein sequences as a fasta file from Gramene
+      \item Longest translated protein sequence among the transcript models for each gene was retained to represent a gene
+      \item Transcript model id was renamed to the gene model ID and generate a maize-filtered fasta file
+      \item Made a BLAST database using the maize-filtered fasta file
+            \begin{minted}[breaklines]{sh}
+makeblastdb -in 'maize-filtered.fa'
+            -dbtype 'prot'
+            -hash_index
+            -out 'maize-filtered'
+            -title 'maize-filtered'
+            \end{minted}
+    \end{enumerate}
+    \item \emph{Arabidopsis}
+    \begin{enumerate}
+      \item Downloaded Arabidopsis transcript protein sequences from TAIR v10
+      \item Made a arabidopsis-filtered fasta by filtering for the transcript model with the longest protein sequence to represent each gene and rename transcript model IDs to gene model IDs
+      \item Made a blast database using the arabidopsis-filtered fasta file \\
+            \begin{minted}[breaklines]{sh}
+makeblastdb -in 'arabidopsis-filtered.fa'
+            -dbtype 'prot'
+            -hash_index
+            -out 'arabidopsis-filtered'
+            -title 'arabidopsis-filtered'
+            \end{minted}
+
+      \item Downloaded the \emph{Arabidopsis} GO annotation GAF file arabidopsis.gaf  from TAIR v10
+      \item Filter the GO annotations from arabidopsis.gaf to retain the annotations which have curated evidence codes and convert to a GAF file named filtered-arabidpsis.gaf \\
+            \begin{enumerate}
+              \item Selected [EXP, IDA, IPI, IMP, IGI, IEP, ISS, ISO, ISA, ISM, IGC, IBA, IBD, IKR, IRD, RCA, TAS, IC]
+              \item Omitted [IEA, ND, NAS]
+            \end{enumerate}
+    \end{enumerate}
+    \item UniProt Plants
+    \begin{enumerate}
+      \item Curated GO annotations for plants were downloaded from UniProt using QuickGO
+      \begin{minted}[breaklines]{sh}
+wget  -O annot/tmp.gaf
+      "http://www.ebi.ac.uk/QuickGO/GAnnotation?\ format=gaf&limit=-1&q=!evidence=IEA,ND,NAS&tax=33090"
+      \end{minted}
+      \item GO annotations from Top 10 plant species with highest number of annotations from tmp.gaf were filter and saved to uniprot-hc-plant.gaf
+      \item NCBI taxonomy IDs of the top 10 plant species at the time of downloading UniProt data are \\
+      (15368, 29760, 3055, 3218, 3694, 3702, 3847, 39947, 4081, 4558)
+      \item Plant Protein sequences with curated GO annotations were downloaded from UniProt using QuickGO tool
+      \begin{minted}[breaklines]{sh}
+wget  -O fa/tmp.fa
+      "http://www.ebi.ac.uk/QuickGO/GAnnotation?\ format=fasta&limit=-1&q=!evidence=IEA,ND,NAS&tax=33090"
+      \end{minted}
+      \item Convert the IDs in tmp.fa to match the protein IDs in the uniprot-hc-plant.gaf file and make a new fasta file tmp2.fa
+      \item tmp2.fa was filtered for IDs present in the uniprot-hc-plant.gaf and save to uniprot-hc-plant.fa
+      \item Make a BLAST database for the uniprot-hc-plant.fa
+      \begin{minted}[breaklines]{sh}
+makeblastdb -in 'uniprot-hc-plant.fa'
+            -dbtype 'prot'
+            -out 'uniprot-hc-plant'
+      \end{minted}
+  \end{enumerate}
+  \end{enumerate}
+
+
+  \subsection{Sequence-Similarity methods}
+  \begin{enumerate}
+    \item \emph{Arabidopsis}
+    \begin{enumerate}
+      \item Used the maize-filtered fasta as query and searched against uniprot-hc-plant blast database
+      \begin{minted}[breaklines]{sh}
+blastp  -db 'arabidopsis-filtered'
+        -query 'maize-filtered.fa'
+        -max_target_seqs '20'
+        -out 'mz-ara-aa.txt'
+        -outfmt '6 qseqid sseqid qlen qstart qend slen sstart send evalue bitscore score length pident nident gaps'
+        -num_threads '16'
+      \end{minted}
+      \item Used the arabidopsis-filtered fasta as query and searched against maize-filtered database
+      \begin{minted}[breaklines]{sh}
+blastp  -db 'maize-filtered'
+        -query 'arabidopsis-filtered.fa'
+        -max_target_seqs '20'
+        -out 'ara-mz-aa.txt'
+        -outfmt '6 qseqid sseqid qlen qstart qend slen sstart send evalue bitscore score length pident nident gaps'
+        -num_threads '16'
+      \end{minted}
+      \item Used custom R script to read 'ara-mz-aa.txt' \& 'mz-ara-aa.txt' and obtained Reciprocal-Best-Hits (RBH) saved as 'maize-v3-vs-tair10.rbh.txt' \\
+          Specific paramters used within the script
+        \begin{itemize}
+          \item BLAST hits were filtered by using an e-value cut off of 10e-10 form both datasets
+          \item Hits were ranked by the score in descending order
+        \end{itemize}
+      \item Used custom R script to read 'filtered-arabidpsis.gaf' and maize-v3-vs-tair10.rbh.txt inherited the curated GO terms from \emph{Arabidopsis} to maize and created a 'maize-arabidopsis.gaf' file
+    \end{enumerate}
+    %%%%%%%%%%%%%%%%%%%%%% UniProt Plants %%%%%%%%%%%%%%%%%%%%%%
+    \item UniProt Plants
+    \begin{enumerate}
+      \item Used the maize-filtered fasta as query and searched against uniprot-hc-plant database
+      \begin{minted}[breaklines]{sh}
+blastp  -db 'uniprot-hc-plant'
+        -query 'maize-filtered.fa'
+        -max_target_seqs '20'
+        -out 'mz-uniprot-aa.txt'
+        -outfmt '6 qseqid sseqid qlen qstart qend slen sstart send evalue bitscore score length pident nident gaps'
+        -num_threads '16'
+      \end{minted}
+      \item Used the uniprot-hc-plant fasta as query and searched against maize-filtered database
+      \begin{minted}[breaklines]{sh}
+blastp  -db 'maize-filtered'
+        -query 'uniprot-hc-plant.fa'
+        -max_target_seqs '20'
+        -out 'uniprot-mz-aa.txt'
+        -outfmt '6 qseqid sseqid qlen qstart qend slen sstart send evalue bitscore score length pident nident gaps'
+        -num_threads '16'
+      \end{minted}
+      \item Used custom R script to read 'uniprot-mz-aa.txt' \& 'mz-uniprot-aa.txt' and obtained Reciprocal-Best-Hits (RBH) saved as 'maize-v3-vs-uniprot.rbh.txt' \\
+          Specific steps and paramters used within the script
+        \begin{itemize}
+          \item BLAST hits were filtered by using an e-value cut off of 10e-10 form both datasets
+          \item Hits were ranked by the score in descending order
+          \item RBH assignment was performed for each of the 10 plant species in uniprot-hc-plant.gaf and maize the steps were exactly similar to \emph{Arabidopsis}
+        \end{itemize}
+      \item Used custom R script to read 'uniprot-hc-plant.gaf' and maize-v3-vs-uniprot.rbh.txt inherited the curated GO terms from Plants in Uniprot dataset to maize and created a 'maize-uniprot.gaf' file
+    \end{enumerate}
+  \end{enumerate}
+  \subsection{Domain Prescence method}
+  \begin{enumerate}
+    \item InterProScan5 pipeline was downloaded an configured in a local server
+    \item Necessary PANTHER database was downloaded added to the data location
+    \item InterProScan5 pipeline was run on maize-filtered.fa file to assign putative domains and assign GO terms to genes \\
+    \begin{minted}[breaklines]{sh}
+interproscan.sh -i 'maize-filtered.fa'
+                -goterms
+                -f 'tsv'
+                -o 'maize-filtered.iprs.out'
+    \end{minted}
+    \item A custom Rscript was used to convert 'maize-filtered.iprs.out' to 'maize-interproscan.gaf'
+  \end{enumerate}
+  \subsection{Mixed-method pipelines}
+  \begin{enumerate}
+    \item Common Pre-processing steps
+    \begin{enumerate}
+      \item All protein sequences was downloaded from UniProt as uniprot.fa
+      \item The uniprot.fa was used to make a blast database
+      \begin{minted}[breaklines]{sh}
+makeblastdb   -in 'uniprot.fa'
+              -dbtype 'prot'
+              -out 'uniprot'
+      \end{minted}
+      \item Pfam-A and Pfam-B HMM models were downloaded and uncompressed
+      \item A Pfam-AB file was created by concatenating Pfam-A and Pfam-B
+      \begin{minted}[breaklines]{sh}
+cat "Pfam-A.hmm" and "Pfam-B.hmm" > "Pfam-AB.hmm"
+hmmpress "Pfam-AB.hmm"
+      \end{minted}
+    \end{enumerate}
+    \item Argot2
+    \begin{enumerate}
+      \item "maize-filtered.fa" was split into smaller files with only 5000 sequences per file. Argot2 webserver allows a max 5000 sequences to be batch processed at a time.
+      \item BLASTP was run against the UniProt database for each split file
+       \begin{minted}[breaklines]{sh}
+blastp  -outfmt '6 qseqid sseqid evalue'
+        -num_threads '16'
+        -query 'maize-filtered.1.fa'
+        -db 'uniprot'
+        -out 'maize-filtered.1.blast'
+       \end{minted}
+       \item Hmmer was used for each split file to search against the Pfam HMMs
+       \begin{minted}[breaklines]{sh}
+hmmscan   --cpu '16'
+          --tblout 'maize-filtered.1.hmmer'
+          'Pfam-AB.hmm'
+          'maize-filtered.1.fa'
+       \end{minted}
+       \item All output files were compressed as zip filess
+       \item Output files from BLAST and Hmmer for each split fasta file was submitted as a new job for batch processing on the Argot2  \href{http://www.medcomp.medicina.unipd.it/Argot2/form_batch.php }{website}
+       \item Argot2 Results for each part was downloaded and renamed according to input file names
+       \item Argot2 results were converted to GAF 2.0 format using an Rscript
+       \item This was saved as 'maize-argot2.gaf' file
+    \end{enumerate}
+    \item PANNZER
+    \begin{enumerate}
+      \item PANNZER files and database were downloaded from \href{http://ekhidna.biocenter.helsinki.fi/pannzer/Download.html}{here}
+      \item PANNZER tool was setup according to the instructions provided in the manual
+      \item BLASTP was used to query the maize-filtered split fasta files used for Argot2 against the uniprot blast database
+      \begin{minted}[breaklines]{sh}
+blastp  -db 'uniprot'
+        -query 'maize-filtered.1.fa'
+        -outfmt '5'
+        -num_threads '32'
+        -out 'maize-filtered.1.xml'
+      \end{minted}
+      \item A config file required for PANNZER for each BLAST xml file output in the previous step
+      \begin{lstlisting}[breaklines]
+[GENERAL_SETTINGS]
+INPUT_TYPE=BLASTXML
+INPUT_FILE=maize-filtered.1.xml
+XML=True
+DATA_FOLDER=PANNZER/db/
+DB=uniprot
+RESULT_FOLDER=ouput/
+RESULT_BASE_NAME=maize-filtered.1
+INPUT_BASE_NAME=Prefix_of_the_desc_file
+INPUT_FOLDER=xml/
+QUERY_TAXON=4577
+GET_TAXON=False
+GENERATE_IDF=False
+MULTIPLE_SPECIES=False
+
+[TRESHOLD_VALUES]
+BITSCORE=50
+SEQUENCE_LENGTH=20
+IDENTITY_PERCENT=50
+E-VALUE=0
+TARGET_COVERAGE=0.6
+QUERY_COVERAGE=0.6
+INFORMATIVE=30
+INFORMATIVE_HITS=100
+CLUSTER=0.3
+
+[MYSQL]
+SQL_DB_HOST=localhost
+SQL_DB_PORT =
+SQL_DB_USER = pannzer
+SQL_DB_PASSWORD = pannzer
+SQL_DB = pannzer
+
+[TAXONOMY]
+DB=taxonomy-all.tab
+CALCULATE=True
+NODE_SELECTOR=1
+TRACK_GROUPS=False
+TRACKED_GROUPS=
+ONLY_ONE_HIT_PER_SPECIE=False
+
+[GO]
+WRITE_GO=True
+OBO=gene_ontology_ext.obo
+ID_MAPPING=idmapping_selected.tab
+ENZYME=enzyme.dat
+
+[LEVEL_OF_PRINTING]
+SIMPLE_OUTPUT=True
+CLUSTER=True
+CLUSTER_MEMBERS=False
+ALL=False
+ERROR=True
+DEBUG=False
+INFO=False
+
+[EVALUATION] ### IF YOU DON'T KNOW WHAT YOU ARE DOING, DON'T CHANGE ANYTHING FROM THIS ON!!!!
+PRINT_EVAL=False
+TEST=False
+OTHER=False
+      \end{lstlisting}
+      \item PANNZER was run for each config file
+      \item All results files from each split fasta files were concatenated and converted to a GAF 2.0 file
+      \item GAF file was saved as 'maize-pannzer.gaf'
+    \end{enumerate}
+    \item FANN-GO
+    \begin{enumerate}
+      \item FANN-GO tool was downloaded from \href{http://montana.informatics.indiana.edu/fanngo/fanngo.html}{here}, uncompressed and installed.
+      \item The "maize-filtered.fa" file was used as input and FANN-GO was run using the following code
+      \begin{minted}[breaklines]{matlab}
+echo off all
+cd code
+[Headers, Sequences] = fastaread('maize-filtered.fa')
+PRED=MAIN(Sequences)
+Headers = transpose(Headers)
+Headers = regexprep(Headers, ' .*', '')
+tbnames = horzcat('gene_id',PRED.accessions)
+tbnames = strrep(tbnames,':','_')
+scores = num2cell(PRED.scores)
+all_scores = horzcat(Headers,scores)
+all_scores = cell2table(all_scores)
+all_scores.Properties.VariableNames = tbnames
+writetable(all_scores,'../scores.txt','Delimiter','\t')
+    \end{minted}
+    \item "scores.txt" was converted into a GAF 2.0 file and saved as 'maize-fanngo.gaf'
+    \end{enumerate}
+  \end{enumerate}
+%%%% Cleaning Maize Annotations %%%%%
+  \section{Selection and Cleaning of Maize Annotations}
+    \subsection{Selection of High-Confidence Mixed-Method Annotations}
+      \begin{enumerate}
+        \item Score thresholds determined for the mixed-method pipeline annotations by evaluation against the MaizeGDB gold standard dataset
+        \begin{enumerate}
+          \item Argot2
+          \begin{enumerate}
+            \item BP : 0.15
+            \item CC : 0.05
+            \item MF : 0.15
+          \end{enumerate}
+          \item FANN-GO
+          \begin{enumerate}
+            \item BP : 0.3
+            \item MF : 0.65
+          \end{enumerate}
+          \item PANNZER
+          \begin{enumerate}
+            \item BP : 0.4
+            \item CC : 0.2
+            \item MF : 0.55
+          \end{enumerate}
+        \end{enumerate}
+        \item 'maize-argot2.gaf', 'maize-fanngo.gaf' and 'maize-pannzer.gaf' files was filtered to retain annotations with a score greater than or equal to the thresholds mentioned in the previous step
+      \end{enumerate}
+      \subsection{List of Component Datasets} \label{subsec:comp_data}
+      \begin{enumerate}
+        \item Sequence-Similarity
+        \begin{enumerate}
+          \item maize-arabidopsis.gaf
+          \item maize-uniprot.gaf
+        \end{enumerate}
+        \item Domain-Presence
+        \begin{enumerate}
+          \item maize-interproscan.gaf
+        \end{enumerate}
+        \item Mixed-method Pipelines
+        \begin{enumerate}
+          \item maize-argot2.gaf
+          \item maize-pannzer.gaf
+          \item maize-fanngo.gaf
+        \end{enumerate}
+      \end{enumerate}
+    \subsection{Cleaning Duplications} \label{subsec:remove_dup}
+    \begin{enumerate}
+      \item Datasets mentioned in section \ref{subsec:comp_data} were cleaned for duplicate annotations
+      \item Duplicate annotation is when the same GO term is annotated to the same gene more then one time
+      \item Duplicate annotations were replaced by a single instance of the Gene-GO term pair independently for each dataset
+      \item The unique annotations for each component dataset was saved as gaf file
+    \end{enumerate}
+    \subsection{Cleaning Redundancy} \label{subsec:nonred_dat}
+    \begin{enumerate}
+      \item Redundancy is the annotation of one or more ancestral GO terms to a gene which is annotateed to a more specific offspring GO term
+      \item Unique datasets mentioned in section \ref{subsec:remove_dup} were cleaned by removing annotations with redundant GO terms
+      \item The non-redundant annotations for each component dataset was saved as gaf file
+    \end{enumerate}
+    \subsection{Making Aggregate dataset}
+    \begin{enumerate}
+      \item All the non-redundant component datasets from section \ref{subsec:nonred_dat} were concatenated together
+      \item The duplication introduced by merging multiple component datasets was cleaned using the steps from section \ref{subsec:remove_dup}
+      \item The redundancy introduced by merging multiple component datasets was cleaned using the steps from section \ref{subsec:nonred_dat}
+      \item The non-redundant aggregate dataset was saved as 'maize-aggregate.gaf'
+    \end{enumerate}
+
+  \section{References}
+  \printbibliography[heading=none]
+
+\end{document}
