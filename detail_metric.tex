@@ -1,0 +1,125 @@
+  \section{Detailed Metrics}
+  \label{sec:detailes_metrics}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%     Hierarchical Precision       %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Hierarchical Precision}
+
+For gene $g$ with annotation $AS_i$ in annotation set and annotation $GS_j$ in the gold standard the $hPr$ is calculated as follows
+\begin{equation}
+    hPr_{(g,AS_{i},GS_{j})} = \frac{GO_{AS_{i}} \cap GO_{GS_{j}}} {GO_{AS_{i}}}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $GO_{AS_{i}}$ & GO terms inferred for annotation $AS_i$ by propagating the GO hierarchy till the root term  \\
+    $GO_{GS_{j}}$ & GO terms inferred for annotation $GS_j$ by propagating the GO hierarchy root term
+\end{tabularx}
+
+For a gene $g$ with annotation $AS_i$ in annotation set in the GO ontology $o$ the $hPr$ is calculated as followed.
+
+\begin{equation}
+    hPr_{(g,AS_{i})} = \sum_{j \in GS_{g,o}} 
+    \frac{ hPr_{(g,AS_{i},GS_{j})}}
+        {|GS_{g,o}|}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $GS_{g,o}$ & GO terms annotated to gene $g$ in the ontology $o$ in gold standard $GS$
+\end{tabularx}
+
+For gene $g$, $hPr$ for ontology $o$ is calculated as follows
+
+\begin{equation}
+    hPr_{(g)} =   \sum_{i \in AS_{g,o}}
+    \frac{ hPr_{(g,AS_{i})}}
+        {|AS_{g,o}|}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $AS_{g,o}$ & GO terms annotated to gene $g$ in the  ontology $o$ in the annotation set $AS$.
+\end{tabularx}
+
+Note: Only genes with GO terms annotated in ontology $o$ in both $AS$ and $GS$ can be used for this calculation.
+
+
+$hPr$ for a given annotation set $AS$ for the ontology $o$ is calculated as followed
+
+\begin{equation}
+    hPr_{(AS,o)} =  \sum_{g \in (AS_{o} \cap GS_{o})}
+    \frac{  hPr_{(g)}}
+        {|AS_{o} \cap GS_{o}|}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $AS_{o}$ & Genes annotated in the annotation set $AS$ in the ontology $o$ \\
+    $GS_{o}$ & Genes annotated in the gold standard $GS$ in the ontology $o$
+\end{tabularx}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%       Hierarchical Recall        %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{Hierarchical Recall}
+
+For gene $g$ with annotation $AS_i$ in annotation set and annotation $GS_j$ in the gold standard the $hRc$ is calculated as follows
+\begin{equation}
+    hRc_{(g,AS_{i},GS_{j})} = \frac{GO_{AS_{i}} \cap GO_{GS_{j}}} {GO_{GS_{i}}}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $GO_{AS_{i}}$ & GO terms inferred for annotation $AS_i$ by propagating the GO hierarchy till the root term  \\
+    $GO_{GS_{j}}$ & GO terms inferred for annotation $GS_j$ by propagating the GO hierarchy root term
+\end{tabularx}
+
+For a gene $g$ with annotation $GS_i$ in gold standard in the GO ontology $o$ the $hRc$ is calculated as followed.
+
+\begin{equation}
+    hRc_{(g,GS_{j})} = \sum_{i \in AS_{g,o}} 
+    \frac{ hRc_{(g,AS_{i},GS_{j})}}
+        {|AS_{g,o}|}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $AS_{g,o}$ & GO terms annotated to gene $g$ in the ontology $o$ in annotation set $AS$
+\end{tabularx}
+
+For gene $g$, $hRc$ for ontology $o$ is calculated as follows
+
+\begin{equation}
+    hRc_{(g)} =   \sum_{j \in GS_{g,o}}
+    \frac{ hRc_{(g,GS_{j})}}
+        {|GS_{g,o}|}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $GS_{g,o}$ & GO terms annotated to gene $g$ in the  ontology $o$ in the gold standard $GS$.
+\end{tabularx}
+
+Note: Only genes with GO terms annotated in ontology $o$ in both $AS$ and $GS$ can be used for this calculation.
+
+
+$hRc$ for a given annotation set $AS$ for the ontology $o$ is calculated as followed
+
+\begin{equation}
+    hRc_{(AS,o)} =  \sum_{g \in (AS_{o} \cap GS_{o})}
+    \frac{  hPr_{(g)}}
+        {|AS_{o} \cap GS_{o}|}
+\end{equation}
+Where:
+
+\begin{tabularx}{0.95\textwidth}{r@{\ :\ }X}
+    $AS_{o}$ & Genes annotated in the annotation set $AS$ in the ontology $o$ \\
+    $GS_{o}$ & Genes annotated in the gold standard $GS$ in the ontology $o$
+\end{tabularx}
+
+

@@ -1,0 +1,62 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[document]{ragged2e}
+ \usepackage[T1]{fontenc}
+ \usepackage[utf8]{inputenc}
+ \usepackage[pdftex]{graphicx}
+ \usepackage{subcaption}
+ \usepackage{rotating}
+ \usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
+ \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue, bookmarksnumbered=true,pdfview=FitB}
+\usepackage{array}
+\usepackage{authblk}
+\usepackage{mathptmx}
+\usepackage{tabularx}
+\usepackage{wrapfig}
+\usepackage{lipsum}
+\usepackage{multirow}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage[labelfont=bf]{caption}
+\usepackage{csvsimple}
+\usepackage[group-separator={,}]{siunitx}
+\usepackage{lscape}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{DejaVuSansMono}
+\usepackage{minted}
+\setminted[sh]{fontfamily=DejaVuSansMono-TLF,breaksymbolleft=,fontsize=\footnotesize}
+\setminted[matlab]{fontfamily=DejaVuSansMono-TLF,breaksymbolleft=,fontsize=\footnotesize}
+\lstset{basicstyle=\fontfamily{DejaVuSansMono-TLF}\footnotesize}
+
+\usepackage[style=chicago-authordate]{biblatex}
+\addbibresource{references/maize-GO-manuscript.bib}
+
+
+\title{
+Maize GO Annotation - Methods, Evaluation, and Review (maize-GAMER) \\
+    \Large{ Supplementary Information}
+}
+\author[1,2]{Kokulapalan Wimalanathan}
+\author[1,3]{Iddo Friedberg}
+\author[4,5]{Carson M. Andorf}
+\author[1,2,6]{Carolyn J. Lawrence-Dill}
+\affil[1] {Bioinformatics and Computational Biology, Iowa State University, Ames, IA 50011, USA}
+\affil[2] {Department of Genetics Development and Cell Biology, Iowa State University, Ames, IA 50011, USA}
+\affil[3] {Department of Veterinary Microbiology and Preventive Medicine, Iowa State University, Ames, IA 50011, USA}
+\affil[4] {USDA-ARS Corn Insects and Crop Genetics Research Unit, Iowa State University, Ames, IA 50011, USA}
+\affil[5] {Department of Computer Science, Iowa State University, Ames, IA 50011, USA}
+\affil[6] {Department of Agronomy, Iowa State University, Ames, IA 50011, USA}
+
+\begin{document}
+\DeclareGraphicsExtensions{.jpg,.pdf,.mps,.png}
+  \maketitle
+  \newpage
+  
+\include{detail_metric}
+
+\include{reproducibility}
+
+\include{ref}
+
+\end{document}

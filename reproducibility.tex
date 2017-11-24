@@ -1,56 +1,6 @@
-\documentclass[11pt,letterpaper]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage[document]{ragged2e}
- \usepackage[T1]{fontenc}
- \usepackage[utf8]{inputenc}
- \usepackage[pdftex]{graphicx}
- \usepackage{subcaption}
- \usepackage{rotating}
- \usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
- \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue, bookmarksnumbered=true,pdfview=FitB}
-\usepackage{array}
-\usepackage{authblk}
-\usepackage{mathptmx}
-\usepackage{tabularx}
-\usepackage{wrapfig}
-\usepackage{lipsum}
-\usepackage{multirow}
-\usepackage[usenames, dvipsnames]{color}
-\usepackage[labelfont=bf]{caption}
-\usepackage{csvsimple}
-\usepackage[group-separator={,}]{siunitx}
-\usepackage{lscape}
-\usepackage{amsmath}
-\usepackage{float}
-\usepackage{listings}
-\usepackage{DejaVuSansMono}
-\usepackage{minted}
-\setminted[sh]{fontfamily=DejaVuSansMono-TLF,breaksymbolleft=,fontsize=\footnotesize}
-\setminted[matlab]{fontfamily=DejaVuSansMono-TLF,breaksymbolleft=,fontsize=\footnotesize}
-\lstset{basicstyle=\fontfamily{DejaVuSansMono-TLF}\footnotesize}
-
-\usepackage[style=chicago-authordate]{biblatex}
-\addbibresource{references/maize-GO-manuscript.bib}
-
-
-\title{maize-GAMER Reproducibility File}
-\author[12]{Kokulapalan Wimalanathan}
-\author[13]{Iddo Friedberg}
-\author[45]{Carson M. Andorf}
-\author[126]{Carolyn J. Lawrence-Dill}
-\affil[1] {Bioinformatics and Computational Biology, Iowa State University, Ames, IA 50011, USA}
-\affil[2] {Department of Genetics Development and Cell Biology, Iowa State University, Ames, IA 50011, USA}
-\affil[3] {Department of Veterinary Microbiology and Preventive Medicine, Iowa State University, Ames, IA 50011, USA}
-\affil[4] {USDA-ARS Corn Insects and Crop Genetics Research Unit, Iowa State University, Ames, IA 50011, USA}
-\affil[5] {Department of Computer Science, Iowa State University, Ames, IA 50011, USA}
-\affil[6] {Department of Agronomy, Iowa State University, Ames, IA 50011, USA}
-
-\begin{document}
-\DeclareGraphicsExtensions{.jpg,.pdf,.mps,.png}
-  \maketitle
-  \newpage
+\section{Reproducibility} 
 %%%% Datasets %%%%%
-  \section{Datasets}
+  \subsection{Datasets}
   \begin{table}[H]
     \centering
     \caption{Public Datasets used in the project}
@@ -66,7 +16,7 @@
 \newpage
 
 %%%% Software %%%%%
-  \section{Software Tools and Versions}
+  \subsection{Software Tools and Versions}
   \begin{table}[H]
     \centering
     \caption{Software Tools used in the project. Exact parameters used will be specified in section \ref{sec:steps}.}
@@ -82,9 +32,9 @@
 \newpage
 
 %%%% Annotation of Maize Genes %%%%%
-  \section{Annotation of Maize Genes}
+  \subsection{Annotation of Maize Genes}
   \label{sec:steps}
-  \subsection{Obtaining Input Datasets}
+  \subsubsection{Obtaining Input Datasets}
   \begin{enumerate}
     \item Query Sequencess
     \begin{enumerate}
@@ -147,7 +97,7 @@ makeblastdb -in 'uniprot-hc-plant.fa'
   \end{enumerate}
 
 
-  \subsection{Sequence-Similarity methods}
+  \subsubsection{Sequence-Similarity methods}
   \begin{enumerate}
     \item \emph{Arabidopsis}
     \begin{enumerate}
@@ -199,7 +149,7 @@ blastp  -db 'maize-filtered'
         -num_threads '16'
       \end{minted}
       \item Used custom R script to read 'uniprot-mz-aa.txt' \& 'mz-uniprot-aa.txt' and obtained Reciprocal-Best-Hits (RBH) saved as 'maize-v3-vs-uniprot.rbh.txt' \\
-          Specific steps and paramters used within the script
+          Specific steps and parameters used within the script
         \begin{itemize}
           \item BLAST hits were filtered by using an e-value cut off of 10e-10 form both datasets
           \item Hits were ranked by the score in descending order
@@ -208,7 +158,7 @@ blastp  -db 'maize-filtered'
       \item Used custom R script to read 'uniprot-hc-plant.gaf' and maize-v3-vs-uniprot.rbh.txt inherited the curated GO terms from Plants in Uniprot dataset to maize and created a 'maize-uniprot.gaf' file
     \end{enumerate}
   \end{enumerate}
-  \subsection{Domain Prescence method}
+  \subsubsection{Domain Prescence method}
   \begin{enumerate}
     \item InterProScan5 pipeline was downloaded an configured in a local server
     \item Necessary PANTHER database was downloaded added to the data location
@@ -221,7 +171,7 @@ interproscan.sh -i 'maize-filtered.fa'
     \end{minted}
     \item A custom Rscript was used to convert 'maize-filtered.iprs.out' to 'maize-interproscan.gaf'
   \end{enumerate}
-  \subsection{Mixed-method pipelines}
+  \subsubsection{Mixed-method pipelines}
   \begin{enumerate}
     \item Common Pre-processing steps
     \begin{enumerate}
@@ -365,10 +315,10 @@ writetable(all_scores,'../scores.txt','Delimiter','\t')
     \end{enumerate}
   \end{enumerate}
 %%%% Cleaning Maize Annotations %%%%%
-  \section{Selection and Cleaning of Maize Annotations}
-    \subsection{Selection of High-Confidence Mixed-Method Annotations}
+  \subsection{Selection and Cleaning of Maize Annotations}
+    \subsubsection{Selection of High-Confidence Mixed-Method Annotations}
       \begin{enumerate}
-        \item Score thresholds determined for the mixed-method pipeline annotations by evaluation against the MaizeGDB gold standard dataset
+        \item Score thresholds determined for the mixed-method pipeline annotations by evaluation against the MaizeGDB gold standard dataset. (Please refer to the main paper for how the score thresholds were determined)
         \begin{enumerate}
           \item Argot2
           \begin{enumerate}
@@ -390,7 +340,7 @@ writetable(all_scores,'../scores.txt','Delimiter','\t')
         \end{enumerate}
         \item 'maize-argot2.gaf', 'maize-fanngo.gaf' and 'maize-pannzer.gaf' files was filtered to retain annotations with a score greater than or equal to the thresholds mentioned in the previous step
       \end{enumerate}
-      \subsection{List of Component Datasets} \label{subsec:comp_data}
+      \subsubsection{List of Component Datasets} \label{subsec:comp_data}
       \begin{enumerate}
         \item Sequence-Similarity
         \begin{enumerate}
@@ -408,20 +358,20 @@ writetable(all_scores,'../scores.txt','Delimiter','\t')
           \item maize-fanngo.gaf
         \end{enumerate}
       \end{enumerate}
-    \subsection{Cleaning Duplications} \label{subsec:remove_dup}
+    \subsubsection{Cleaning Duplications} \label{subsec:remove_dup}
     \begin{enumerate}
       \item Datasets mentioned in section \ref{subsec:comp_data} were cleaned for duplicate annotations
       \item Duplicate annotation is when the same GO term is annotated to the same gene more then one time
       \item Duplicate annotations were replaced by a single instance of the Gene-GO term pair independently for each dataset
       \item The unique annotations for each component dataset was saved as gaf file
     \end{enumerate}
-    \subsection{Cleaning Redundancy} \label{subsec:nonred_dat}
+    \subsubsection{Cleaning Redundancy} \label{subsec:nonred_dat}
     \begin{enumerate}
       \item Redundancy is the annotation of one or more ancestral GO terms to a gene which is annotateed to a more specific offspring GO term
       \item Unique datasets mentioned in section \ref{subsec:remove_dup} were cleaned by removing annotations with redundant GO terms
       \item The non-redundant annotations for each component dataset was saved as gaf file
     \end{enumerate}
-    \subsection{Making Aggregate dataset}
+    \subsubsection{Making Aggregate dataset}
     \begin{enumerate}
       \item All the non-redundant component datasets from section \ref{subsec:nonred_dat} were concatenated together
       \item The duplication introduced by merging multiple component datasets was cleaned using the steps from section \ref{subsec:remove_dup}
@@ -429,7 +379,6 @@ writetable(all_scores,'../scores.txt','Delimiter','\t')
       \item The non-redundant aggregate dataset was saved as 'maize-aggregate.gaf'
     \end{enumerate}
 
-  \section{References}
-  \printbibliography[heading=none]
 
-\end{document}
+
+
